@@ -11,5 +11,13 @@ public class PactProviderExtension implements LoadableExtension {
             .observer(PactProviderConfigurator.class)
             .observer(HttpTargetCreator.class)
             .service(ResourceProvider.class, HttpTargetResourceProvider.class);
+
+        try {
+            Class.forName("au.com.dius.pact.consumer.MockServer");
+            builder.service(ResourceProvider.class, ContractExposerResourceProvider.class);
+        } catch (ClassNotFoundException e) {
+        }
+
+
     }
 }
